@@ -1,19 +1,10 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  BarChart3,
-  Brain,
-  ChevronLeft,
-  ChevronRight,
-  FlaskConical,
-  FolderOpen,
-  Grid3x3,
-  Home,
-  Inbox,
-  type LucideIcon,
-  Settings,
-  X,
+  BarChart3, Brain, ChevronLeft, ChevronRight,
+  FlaskConical, FolderOpen, Grid3x3, Home, Inbox,
+  type LucideIcon, Settings, X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -21,88 +12,98 @@ import { useEffect, useState } from "react";
 import { useApprovals } from "@/hooks/useApprovals";
 import { cn } from "@/lib/utils";
 
-interface NavItem {
-  href: string;
-  label: string;
-  icon: LucideIcon;
-}
+interface NavItem { href: string; label: string; icon: LucideIcon; }
 
 const NAV: NavItem[] = [
-  { href: "/", label: "Mission Control", icon: Home },
-  { href: "/agents", label: "Agent Board", icon: Grid3x3 },
-  { href: "/work", label: "Work Product", icon: FolderOpen },
-  { href: "/experiments", label: "Experiments", icon: FlaskConical },
-  { href: "/financials", label: "Financials", icon: BarChart3 },
-  { href: "/approvals", label: "Approval Inbox", icon: Inbox },
-  { href: "/knowledge", label: "Knowledge Base", icon: Brain },
-  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/",            label: "Mission Control", icon: Home },
+  { href: "/agents",      label: "Agent Board",     icon: Grid3x3 },
+  { href: "/work",        label: "Work Product",    icon: FolderOpen },
+  { href: "/experiments", label: "Experiments",     icon: FlaskConical },
+  { href: "/financials",  label: "Financials",      icon: BarChart3 },
+  { href: "/approvals",   label: "Approvals",       icon: Inbox },
+  { href: "/knowledge",   label: "Knowledge",       icon: Brain },
+  { href: "/settings",    label: "Settings",        icon: Settings },
 ];
 
-
-function LogoMark() {
+function AtlasLogo({ compact }: { compact: boolean }) {
   return (
-    <div
-      className="scanline h-8 w-8 shrink-0 rounded-md flex items-center justify-center font-mono text-sm font-semibold text-white"
-      style={{
-        background: "linear-gradient(135deg, var(--accent-blue), var(--accent-purple))",
-        boxShadow: "0 0 18px -4px var(--accent-blue)",
-      }}
-    >
-      A
+    <div className="flex items-center gap-2.5">
+      <div className="scanline relative shrink-0">
+        <svg width="36" height="36" viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="sl-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#060a12"/>
+              <stop offset="100%" stopColor="#0a1020"/>
+            </linearGradient>
+            <filter id="sl-glow">
+              <feGaussianBlur stdDeviation="2.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <rect width="100" height="100" rx="18" fill="url(#sl-bg)"/>
+          <rect width="100" height="100" rx="18" fill="none" stroke="#1a2840" strokeWidth="2"/>
+          <line x1="26" y1="76" x2="44" y2="24" stroke="#2d6cf0" strokeWidth="5.5" strokeLinecap="round" filter="url(#sl-glow)"/>
+          <line x1="74" y1="76" x2="56" y2="24" stroke="#2d6cf0" strokeWidth="5.5" strokeLinecap="round" filter="url(#sl-glow)"/>
+          <line x1="34" y1="57" x2="66" y2="57" stroke="#4d8ff5" strokeWidth="3.5" strokeLinecap="round"/>
+          <circle cx="50" cy="23" r="5" fill="#7c3aed" filter="url(#sl-glow)"/>
+          <circle cx="50" cy="23" r="2.5" fill="#c4b5fd"/>
+          <circle cx="26" cy="76" r="3" fill="#2563eb"/>
+          <circle cx="74" cy="76" r="3" fill="#2563eb"/>
+        </svg>
+      </div>
+      <AnimatePresence>
+        {!compact ? (
+          <motion.div initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -8 }}>
+            <div className="atlas-brand text-sm font-extrabold tracking-widest">ATLAS</div>
+            <div className="text-[9px] text-[var(--text-tertiary)] tracking-[0.18em] uppercase">Autonomous AI · UK</div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
 
-function NavLinks({
-  expanded,
-  pending,
-  onClick,
-}: {
-  expanded: boolean;
-  pending: number;
-  onClick?: () => void;
-}) {
+function NavLinks({ compact, pending, onNavigate }: { compact: boolean; pending: number; onNavigate?: () => void }) {
   const path = usePathname();
   return (
-    <nav className="flex-1 space-y-0.5 px-2">
+    <nav className="flex-1 space-y-0.5 px-2 py-2">
       {NAV.map((n) => {
-        const active = path === n.href || (n.href !== "/" && path.startsWith(n.href));
+        const active = n.href === "/" ? path === "/" : path.startsWith(n.href);
         const Icon = n.icon;
-        const showBadge = n.href === "/approvals" && pending > 0;
+        const badge = n.href === "/approvals" && pending > 0;
         return (
           <Link
             key={n.href}
             href={n.href}
-            onClick={onClick}
+            onClick={onNavigate}
             className={cn(
-              "relative flex items-center gap-3 rounded-md px-2.5 py-2 text-sm transition",
+              "relative flex items-center gap-3 rounded-lg px-2.5 py-2.5 text-sm transition group overflow-hidden",
               active
                 ? "bg-[var(--bg-elevated)] text-[var(--text-primary)]"
                 : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]",
             )}
           >
-            <Icon className="h-4 w-4 shrink-0" />
+            {active ? (
+              <>
+                <span className="absolute inset-0 rounded-lg border border-[var(--accent-blue)]/20" />
+                <span className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-r bg-[var(--accent-blue-bright)]"
+                  style={{ boxShadow: "0 0 8px var(--accent-blue-bright)" }} />
+              </>
+            ) : null}
+            <Icon className={cn("h-4 w-4 shrink-0 transition-colors", active ? "text-[var(--accent-blue-bright)]" : "group-hover:text-[var(--accent-blue-bright)]")} />
             <AnimatePresence>
-              {expanded ? (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="truncate"
-                >
+              {!compact ? (
+                <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="truncate text-[13px]">
                   {n.label}
                 </motion.span>
               ) : null}
             </AnimatePresence>
-            {showBadge ? (
-              <span
-                className={cn(
-                  "ml-auto rounded-full bg-[var(--accent-amber)] px-1.5 py-0.5 text-[10px] font-mono text-black",
-                  expanded ? "" : "absolute right-1 top-1",
-                )}
-              >
+            {badge && !compact ? (
+              <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--accent-amber)] font-mono text-[9px] font-bold text-black px-1">
                 {pending}
               </span>
+            ) : badge ? (
+              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[var(--accent-amber)]" />
             ) : null}
           </Link>
         );
@@ -111,103 +112,64 @@ function NavLinks({
   );
 }
 
-/** Desktop fixed rail (lg+). Collapsible 220 ↔ 64 px. */
-export function Sidebar({
-  expanded,
-  setExpanded,
-}: {
-  expanded: boolean;
-  setExpanded: (v: boolean) => void;
-}) {
+export function Sidebar({ expanded, setExpanded }: { expanded: boolean; setExpanded: (v: boolean) => void }) {
   const { approvals } = useApprovals("pending");
   const pending = approvals.length;
-
   return (
     <motion.aside
-      animate={{ width: expanded ? 220 : 64 }}
+      animate={{ width: expanded ? 224 : 60 }}
       transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-      className="fixed inset-y-0 left-0 z-20 hidden flex-col border-r border-[var(--border)] bg-[var(--bg-surface)] lg:flex"
+      className="fixed inset-y-0 left-0 z-20 hidden flex-col overflow-hidden border-r border-[var(--border)] bg-[var(--bg-surface)] lg:flex"
+      style={{ paddingTop: "var(--safe-top)" }}
     >
-      <div className="flex items-center gap-2 px-3 py-4">
-        <LogoMark />
-        <AnimatePresence>
-          {expanded ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="overflow-hidden"
-            >
-              <div className="font-mono text-sm font-semibold leading-tight text-[var(--text-primary)]">
-                ATLAS
-              </div>
-              <div className="text-[10px] text-[var(--text-tertiary)]">Mission control</div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[var(--accent-blue)]/15 to-transparent" />
       </div>
-
-      <NavLinks expanded={expanded} pending={pending} />
-
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="m-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--bg-base)] py-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-        aria-label={expanded ? "Collapse sidebar" : "Expand sidebar"}
-      >
+      <div className="flex items-center px-3 py-4">
+        <AtlasLogo compact={!expanded} />
+      </div>
+      <NavLinks compact={!expanded} pending={pending} />
+      <AnimatePresence>
+        {expanded ? (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="mx-2 mb-2 rounded-lg border border-[var(--border)] bg-[var(--bg-base)] px-3 py-2">
+            <div className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-emerald)] status-dot-pulse" style={{ color: "var(--accent-emerald)" }} />
+              <span className="font-mono text-[9px] text-[var(--text-tertiary)] uppercase tracking-wide">Haiku 4.5 · GBP</span>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+      <button onClick={() => setExpanded(!expanded)}
+        className="m-2 flex items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--bg-base)] py-1.5 text-[var(--text-tertiary)] hover:border-[var(--border-active)] hover:text-[var(--text-primary)]">
         {expanded ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
       </button>
     </motion.aside>
   );
 }
 
-/** Mobile slide-in drawer. Renders under lg breakpoint. */
-export function MobileSidebar({
-  open,
-  onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
+export function MobileSidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { approvals } = useApprovals("pending");
   const pending = approvals.length;
-
   return (
     <AnimatePresence>
       {open ? (
-        <motion.div
-          className="fixed inset-0 z-30 flex lg:hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-        >
+        <motion.div className="fixed inset-0 z-40 flex lg:hidden"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
           <motion.aside
-            initial={{ x: -260 }}
-            animate={{ x: 0 }}
-            exit={{ x: -260 }}
+            initial={{ x: -270 }} animate={{ x: 0 }} exit={{ x: -270 }}
             transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="flex h-full w-[260px] flex-col border-r border-[var(--border)] bg-[var(--bg-surface)]"
+            className="flex h-full w-[270px] flex-col border-r border-[var(--border)] bg-[var(--bg-surface)]"
+            style={{ paddingTop: "var(--safe-top)" }}
           >
-            <div className="flex items-center justify-between px-3 py-4">
-              <div className="flex items-center gap-2">
-                <LogoMark />
-                <div>
-                  <div className="font-mono text-sm font-semibold text-[var(--text-primary)]">
-                    ATLAS
-                  </div>
-                  <div className="text-[10px] text-[var(--text-tertiary)]">Mission control</div>
-                </div>
-              </div>
-              <button
-                onClick={onClose}
-                className="rounded-md p-1 text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
-                aria-label="Close menu"
-              >
+            <div className="flex items-center justify-between px-4 py-4">
+              <AtlasLogo compact={false} />
+              <button onClick={onClose} className="rounded-lg p-1.5 text-[var(--text-tertiary)] hover:bg-[var(--bg-elevated)]">
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <NavLinks expanded={true} pending={pending} onClick={onClose} />
+            <NavLinks compact={false} pending={pending} onNavigate={onClose} />
           </motion.aside>
           <div className="flex-1 bg-black/60" />
         </motion.div>
@@ -219,18 +181,13 @@ export function MobileSidebar({
 export function useSidebarState() {
   const [expanded, setExpandedState] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
-
   useEffect(() => {
     const v = window.localStorage.getItem("sidebar_expanded");
-    if (v) setExpandedState(v === "1");
+    if (v !== null) setExpandedState(v === "1");
   }, []);
-
   const setExpanded = (v: boolean) => {
     setExpandedState(v);
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem("sidebar_expanded", v ? "1" : "0");
-    }
+    window.localStorage.setItem("sidebar_expanded", v ? "1" : "0");
   };
-
   return { expanded, setExpanded, mobileOpen, setMobileOpen };
 }

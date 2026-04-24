@@ -1,0 +1,53 @@
+{
+  "name": "ATLAS AI — Autonomous Agent Control",
+  "short_name": "ATLAS",
+  "description": "Mission control for your autonomous AI business team.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "theme_color": "#080c14",
+  "background_color": "#080c14",
+  "lang": "en-GB",
+  "dir": "ltr",
+  "categories": ["productivity", "business", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Mission Control",
+      "short_name": "Control",
+      "description": "Live agent dashboard",
+      "url": "/",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Approvals",
+      "short_name": "Approve",
+      "description": "Pending owner decisions",
+      "url": "/approvals",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Work Product",
+      "short_name": "Work",
+      "description": "Agent-produced artefacts",
+      "url": "/work",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192" }]
+    }
+  ]
+}

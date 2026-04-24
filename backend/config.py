@@ -43,6 +43,12 @@ class Settings(BaseSettings):
     # preview URLs + custom domains.
     frontend_origins: str = Field(default="")
 
+    # ---- Locale ----
+    # UK timezone — agent cron jobs and cost resets fire at midnight London time.
+    timezone: str = Field(default="Europe/London")
+    currency: str = Field(default="GBP")
+    currency_symbol: str = Field(default="£")
+
     # ---- Optional external tools ----
     brave_search_api_key: str = Field(default="")
 

@@ -31,9 +31,12 @@ export function formatWaiting(iso: string): string {
 
 export function formatUsd(n: number | null | undefined): string {
   const v = Number(n ?? 0);
-  if (v === 0) return "$0.00";
-  return `$${v < 1 ? v.toFixed(4) : v.toFixed(2)}`;
+  if (v === 0) return "£0.00";
+  return `£${v < 1 ? v.toFixed(4) : v.toFixed(2)}`;
 }
+
+// Alias kept for backward compat — UK uses GBP throughout
+export const formatGBP = formatUsd;
 
 export function formatInt(n: number | null | undefined): string {
   return Number(n ?? 0).toLocaleString();

@@ -57,7 +57,7 @@ def start_scheduler() -> AsyncIOScheduler:
     if _scheduler is not None:
         return _scheduler
 
-    sched = AsyncIOScheduler(timezone="UTC")
+    sched = AsyncIOScheduler(timezone="Europe/London")
     for defn in ALL_AGENTS:
         sched.add_job(
             _safe_run,
@@ -76,14 +76,14 @@ def start_scheduler() -> AsyncIOScheduler:
     # Midnight UTC daily reset (Part 5 — caps reset at midnight UTC).
     sched.add_job(
         _reset_daily_caps,
-        CronTrigger(hour=0, minute=0, timezone="UTC"),
+        CronTrigger(hour=0, minute=0, timezone="Europe/London"),
         id="cap_reset_daily",
         replace_existing=True,
     )
     # First day of the month monthly reset.
     sched.add_job(
         _reset_monthly_caps,
-        CronTrigger(day=1, hour=0, minute=0, timezone="UTC"),
+        CronTrigger(day=1, hour=0, minute=0, timezone="Europe/London"),
         id="cap_reset_monthly",
         replace_existing=True,
     )

@@ -11,7 +11,7 @@ Experiment selection rationale (2026 AI-native micro-SaaS):
   3. AI Async Standup Digest  — remote work is permanent, Slack integration = fast distribution
 
 Each is validated by: strong ICP buy signal, AI does it better than humans, build in <2 weeks,
-distribution channel is clear, $29-$49/mo sits in the ICP's comfort zone.
+distribution channel is clear, $29-£40/mo sits in the ICP's comfort zone.
 """
 
 from __future__ import annotations
@@ -53,8 +53,8 @@ COMPANY_KNOWLEDGE = [
         "content": (
             "PRIMARY ICP: Solo founders, indie hackers, and ops leads at teams of 5-30 people.\n\n"
             "DEMOGRAPHICS: 28-45 years old, technical or semi-technical, self-funded or early-stage "
-            "funded. Uses Slack, Notion, Linear, HubSpot, Loom. Active on Twitter/X, IndieHackers, "
-            "r/SaaS, LinkedIn.\n\n"
+            "funded. Uses Slack, Notion, Linear, HubSpot, Loom. Active on X (Twitter), IndieHackers UK, "
+            "r/SaaS + r/UKEntrepreneurs, LinkedIn.\n\n"
             "BUYING BEHAVIOUR:\n"
             "- Buys without a procurement process if price < $100/mo\n"
             "- Decision in <10 minutes if the demo solves their exact pain\n"
@@ -66,7 +66,7 @@ COMPANY_KNOWLEDGE = [
             "- $39-49/mo: needs to save visibly ≥2h/week\n"
             "- $79-99/mo: needs to replace a paid tool or headcount\n\n"
             "CHANNELS THAT WORK FOR THIS ICP (ranked):\n"
-            "1. IndieHackers / r/SaaS 'Show HN' style posts with real numbers\n"
+            "1. IndieHackers UK / r/SaaS + r/UKEntrepreneurs 'Show HN' style posts with real numbers\n"
             "2. Targeted cold DM on X/LinkedIn to founders who complain about the specific pain\n"
             "3. SEO on high-intent pain-point keywords ('automate competitor tracking', 'SOP generator')\n"
             "4. ProductHunt launch (day-of spike, then SEO long tail)\n"
@@ -116,7 +116,7 @@ COMPANY_KNOWLEDGE = [
             "4. Never ask for more data than the user's core workflow requires.\n"
             "5. Every product must have a 60-second demo that shows the value. If you can't demo it in 60s, the value prop is wrong.\n"
             "6. Pricing: start at $29-39/mo. Raise to $49-79 when waitlist > 50 people.\n"
-            "7. Build in public. Post progress to IndieHackers/X to drive early users.\n"
+            "7. Build in public. Post progress to IndieHackers UK/X to drive early users.\n"
             "8. No enterprise features until we have 50 paying users in the SMB tier."
         ),
         "tags": ["principles", "decisions", "product"],
@@ -128,13 +128,13 @@ COMPANY_KNOWLEDGE = [
         "content": (
             "MODEL: SaaS subscription, monthly billing, no annual plan until 50+ customers.\n\n"
             "PRICING TIERS PER PRODUCT:\n"
-            "- Solo: $29/mo — 1 user, limited volume\n"
-            "- Team: $49/mo — up to 5 users, higher volume\n"
-            "- Growth: $79/mo — unlimited users, priority features, API access\n\n"
+            "- Solo: £25/mo — 1 user, limited volume\n"
+            "- Team: £40/mo — up to 5 users, higher volume\n"
+            "- Growth: £65/mo — unlimited users, priority features, API access\n\n"
             "PAYMENT: Stripe. No free tier (use a 7-day free trial instead). "
             "Free tiers attract non-buyers.\n\n"
-            "FIRST REVENUE TARGET: $1,000 MRR (~25 customers at $39/mo average).\n"
-            "PATH TO $10k MRR: 3 products × ~85 customers each at $39/mo avg, or 1 product "
+            "FIRST REVENUE TARGET: $1,000 MRR (~25 customers at £32/mo average).\n"
+            "PATH TO $10k MRR: 3 products × ~85 customers each at £32/mo avg, or 1 product "
             "at $10k from a mix of tiers.\n\n"
             "UNIT ECONOMICS TARGET:\n"
             "- LTV/CAC > 3x at month 12\n"
@@ -245,25 +245,25 @@ SHARED_MEMORY = [
         "value": {
             "experiment": "AI Competitor Radar",
             "status": "proposed — awaiting CEO activation",
-            "one_liner": "Weekly automated digest of competitor changes for solo founders at $39/mo",
+            "one_liner": "Weekly automated digest of competitor changes for solo founders at £32/mo",
             "icp": "Solo founders and small startups (2-20 people) who manually track 3-5 competitors",
             "core_value": "Save 3 hours per week of manual competitor research",
         },
         "category": "product",
-        "summary": "AI Competitor Radar — weekly competitor change digest, $39/mo, targeting solo founders",
+        "summary": "AI Competitor Radar — weekly competitor change digest, £32/mo, targeting solo founders",
         "written_by": "owner",
     },
     {
         "key": "distribution_thesis",
         "value": {
             "primary_channel": "cold DM on X/LinkedIn to founders who have tweeted about competitor tracking",
-            "secondary_channel": "IndieHackers + r/SaaS posts with real numbers and demo",
-            "offer": "$0 free trial for 1 competitor for 7 days, then $39/mo",
+            "secondary_channel": "IndieHackers UK + r/SaaS + r/UKEntrepreneurs posts with real numbers and demo",
+            "offer": "$0 free trial for 1 competitor for 7 days, then £32/mo",
             "day_1_action": "Identify 20 founders who have mentioned 'tracking competitors' or 'competitive analysis' on X in the last 30 days",
             "distribution_owner": "vp_gtm delegates to sales for outreach, marketing for content",
         },
         "category": "gtm",
-        "summary": "cold DM on X/LinkedIn to founders talking about competitor tracking + IndieHackers post",
+        "summary": "cold DM on X/LinkedIn to founders talking about competitor tracking + IndieHackers UK post",
         "written_by": "owner",
     },
     {
@@ -288,14 +288,14 @@ EXPERIMENTS = [
     {
         "title": "AI Competitor Radar",
         "hypothesis": (
-            "Solo founders and small startups (2-20 people) pay $39/month for a weekly "
+            "Solo founders and small startups (2-20 people) pay £32/month for a weekly "
             "automated digest showing exactly what changed on their top 5 competitors — "
             "pricing updates, new features, job listings signalling product direction, "
             "content shifts, and social activity. Currently they do this manually in a "
             "spreadsheet or don't do it at all. Crayon and Klue serve enterprise at "
             "$500-2000/mo, leaving the sub-$100 segment completely unserved."
         ),
-        "success_metric": "15 paying users at $39/mo within 30 days of launch",
+        "success_metric": "15 paying users at £32/mo within 30 days of launch",
         "owner_agent": "ceo",
         "status": "proposed",
         "effort_score": 4,
@@ -304,7 +304,7 @@ EXPERIMENTS = [
     {
         "title": "AI Process Doc Builder",
         "hypothesis": (
-            "Operations leads and team managers at companies of 5-30 people pay $49/month "
+            "Operations leads and team managers at companies of 5-30 people pay £40/month "
             "for AI that converts their Loom recordings, Slack threads, and voice notes into "
             "polished, structured SOPs and process documents in under 5 minutes. Currently "
             "writing a process doc takes 2-3 hours per document. Scribe.how covers "
@@ -312,7 +312,7 @@ EXPERIMENTS = [
             "transcripts) into structured process documentation. High stickiness: stored "
             "docs create switching cost."
         ),
-        "success_metric": "10 paying users at $49/mo within 30 days of launch",
+        "success_metric": "10 paying users at £40/mo within 30 days of launch",
         "owner_agent": "ceo",
         "status": "proposed",
         "effort_score": 6,
@@ -321,7 +321,7 @@ EXPERIMENTS = [
     {
         "title": "AI Async Standup Digest",
         "hypothesis": (
-            "Remote and hybrid teams of 5-25 people pay $29/month for AI that reads "
+            "Remote and hybrid teams of 5-25 people pay £25/month for AI that reads "
             "their daily async standup messages from Slack (or email/form), automatically "
             "identifies blockers and dependencies, and emails the team lead a structured "
             "60-second summary each morning. Geekbot ($2.50/user/mo) and DailyBot collect "
@@ -329,7 +329,7 @@ EXPERIMENTS = [
             "is the synthesis layer: turning 10 individual standup messages into one "
             "actionable team brief."
         ),
-        "success_metric": "10 paying teams at $29/mo within 30 days of launch",
+        "success_metric": "10 paying teams at £25/mo within 30 days of launch",
         "owner_agent": "ceo",
         "status": "proposed",
         "effort_score": 5,
@@ -395,13 +395,13 @@ SAMPLE_ARTIFACTS = [
             "for a founder's top 5 competitors, priced at $29-49/mo, with AI context that "
             "says 'their pricing changed — they're targeting enterprise now' not just 'page changed'.\n\n"
             "## Signals from ICP\n"
-            "- r/SaaS thread (2024): 'How do you keep up with competitors?' — 73 comments, top answer: 'manually each week, it's brutal'\n"
-            "- IndieHackers poll: 68% of solo founders say they track competitors 'inconsistently or not at all'\n"
+            "- r/SaaS + r/UKEntrepreneurs thread (2024): 'How do you keep up with competitors?' — 73 comments, top answer: 'manually each week, it's brutal'\n"
+            "- IndieHackers UK poll: 68% of solo founders say they track competitors 'inconsistently or not at all'\n"
             "- Common X complaint pattern: 'Found out my competitor shipped X feature 3 months ago. I'm still responding.'\n\n"
             "## Recommendation\n"
             "**Activate AI Competitor Radar immediately.** The gap is real, validated, and uncontested "
             "at our price point. Distribution angle: cold DM founders who have tweeted about competitor "
-            "tracking. Offer: 'Track 1 competitor free for 7 days, then $39/mo for 5 competitors.'\n\n"
+            "tracking. Offer: 'Track 1 competitor free for 7 days, then £32/mo for 5 competitors.'\n\n"
             "## Confidence\n"
             "8/10 — strong signal from community research. Recommend 10 ICP conversations to validate "
             "willingness to pay before full build."
@@ -443,7 +443,7 @@ SAMPLE_ARTIFACTS = [
             "For solo founders and small startups who manually track competitors: "
             "ATLAS Radar sends you a weekly email showing exactly what changed on your "
             "top 5 competitors — pricing, features, job listings, content — so you never "
-            "fall behind again. $39/mo. Cancel anytime.\n\n"
+            "fall behind again. £32/mo. Cancel anytime.\n\n"
             "## Channels (priority order)\n\n"
             "**Channel 1: Cold DM on X / LinkedIn (days 1-7)**\n"
             "- Search: 'competitor tracking' OR 'competitive analysis' on X, last 30 days\n"
@@ -451,15 +451,15 @@ SAMPLE_ARTIFACTS = [
             "- Message: 'Saw you mentioned competitor tracking — we built a tool that automates "
             "the weekly check. Want a free 7-day trial for 1 competitor?'\n"
             "- Goal: 20 DMs → 5 trials → 2 paying users by day 7\n\n"
-            "**Channel 2: IndieHackers post (day 5)**\n"
+            "**Channel 2: IndieHackers UK post (day 5)**\n"
             "- Title: 'How I automated my competitor tracking in 10 minutes (and what I found)'\n"
             "- Content: walk through the product, show real output example, link to trial\n"
             "- Goal: 500 views → 50 clicks → 10 trials → 3 paying users\n\n"
-            "**Channel 3: r/SaaS post (day 7)**\n"
+            "**Channel 3: r/SaaS + r/UKEntrepreneurs post (day 7)**\n"
             "- Ask 'How do you track competitors right now?' — engage, then mention the product\n\n"
             "## Offer\n"
             "Free trial: track 1 competitor for 7 days, receive 1 weekly digest.\n"
-            "Paid: $39/mo for up to 5 competitors, weekly digest, email alerts for major changes.\n\n"
+            "Paid: £32/mo for up to 5 competitors, weekly digest, email alerts for major changes.\n\n"
             "## Early indicators (first 14 days)\n"
             "- Trial signups: target 20\n"
             "- Trial → paid conversion: target 15%\n"
@@ -507,7 +507,7 @@ SAMPLE_ARTIFACTS = [
             "- [ ] Each competitor section: URL, what changed (bullet list), 1 AI paragraph on implications\n"
             "- [ ] If nothing changed for a competitor, section says 'No significant changes this week'\n"
             "- [ ] Email has one-click unsubscribe\n"
-            "- [ ] Stripe payment flow: 7-day free trial → $39/mo\n\n"
+            "- [ ] Stripe payment flow: 7-day free trial → £32/mo\n\n"
             "## Technical notes\n"
             "- Crawler: httpx + BeautifulSoup, store snapshots in Supabase\n"
             "- Diffing: text diff on cleaned HTML (strip nav/header/footer)\n"
@@ -515,7 +515,7 @@ SAMPLE_ARTIFACTS = [
             "- Email: Resend API (free tier: 100 emails/day)\n"
             "- Payments: Stripe Checkout + webhook to activate subscription\n\n"
             "## Success metric\n"
-            "15 paying users at $39/mo within 30 days of launch."
+            "15 paying users at £32/mo within 30 days of launch."
         ),
         "metadata": {"experiment": "AI Competitor Radar", "status": "draft", "version": 1},
     },
@@ -548,7 +548,7 @@ SAMPLE_ARTIFACTS = [
             "  - Send via Resend API\n"
             "  - Cron: Monday 8am per user timezone\n\n"
             "**BE-04** (developer_backend, priority 2): Stripe integration\n"
-            "  - Stripe Checkout session for $39/mo subscription\n"
+            "  - Stripe Checkout session for £32/mo subscription\n"
             "  - Webhook: activate/deactivate user on subscription events\n"
             "  - 7-day trial logic: start crawling immediately, gate email delivery on paid status after day 7\n\n"
             "**Sprint goal:** BE-01 + BE-02 + FE-01 by day 5. BE-03 + BE-04 + FE-02 by day 10. "
@@ -572,7 +572,7 @@ SAMPLE_ARTIFACTS = [
             "2. We crawl them every week and detect changes\n"
             "3. Every Monday morning, you get a plain-English brief: what changed and what it means\n\n"
             "# Pricing\n"
-            "7-day free trial. Then $39/month. Cancel anytime.\n"
+            "7-day free trial. Then £32/month. Cancel anytime.\n"
             "Track 5 competitors. Weekly digest. No setup fees.\n\n"
             "# CTA\n"
             "Start free — track your first competitor today →\n\n"
@@ -631,7 +631,7 @@ SAMPLE_ARTIFACTS = [
         "content": (
             "# Unit Economics: AI Competitor Radar\n\n"
             "## Revenue model\n"
-            "Price: $39/mo. 7-day free trial.\n"
+            "Price: £32/mo. 7-day free trial.\n"
             "Target: 15 paying users in 30 days = $585 MRR.\n\n"
             "## COGS per user\n"
             "- Crawling: ~50 pages/week × 5 competitors = 250 requests. "
@@ -642,12 +642,12 @@ SAMPLE_ARTIFACTS = [
             "- Hosting (Render free): $0 until >$5 credit threshold\n"
             "**Total COGS per user: <$0.05/mo**\n\n"
             "## Gross margin\n"
-            "$39/mo revenue - $0.05 COGS = **99.9% gross margin**\n\n"
+            "£32/mo revenue - $0.05 COGS = **99.9% gross margin**\n\n"
             "## Path to $10k MRR\n"
-            "Scenario A: 256 users at $39/mo = $9,984 MRR\n"
-            "Scenario B: 3 products × 85 users each at $39/mo avg = $9,945 MRR\n\n"
+            "Scenario A: 256 users at £32/mo = $9,984 MRR\n"
+            "Scenario B: 3 products × 85 users each at £32/mo avg = $9,945 MRR\n\n"
             "## Payback period\n"
-            "CAC target: <$40 (1 month payback at $39/mo)\n"
+            "CAC target: <$40 (1 month payback at £32/mo)\n"
             "If cold DM converts at 5%: 20 DMs per paying user = ~2h of sales effort → free for now\n\n"
             "## Risk\n"
             "Main risk: churn if weekly digest quality is low. "
