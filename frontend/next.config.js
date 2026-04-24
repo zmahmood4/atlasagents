@@ -3,7 +3,7 @@ const nextConfig = {
   // Full static export — writes to frontend/out/ at build time.
   // Every page in this app is a client component, no SSR is required.
   // Deployable to Cloudflare Pages / Netlify / GitHub Pages / any CDN.
-  output: "export",
+  output: 'standalone',
 
   // Static-host-friendly routing: each page gets its own folder with index.html.
   trailingSlash: true,
