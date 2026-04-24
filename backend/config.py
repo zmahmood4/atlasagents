@@ -19,12 +19,16 @@ class Settings(BaseSettings):
 
     # ---- Anthropic ----
     anthropic_api_key: str = Field(default="")
-    anthropic_model: str = Field(default="claude-sonnet-4-6")
+    # Haiku 4.5 is ~4x cheaper than Sonnet 4.6.
+    # Override via ANTHROPIC_MODEL env var if you want to step up to Sonnet.
+    anthropic_model: str = Field(default="claude-haiku-4-5-20251001")
     anthropic_max_tokens: int = Field(default=4096)
 
-    # Per-million pricing for claude-sonnet-4-6 (USD).
-    price_input_per_mtok: float = Field(default=3.00)
-    price_output_per_mtok: float = Field(default=15.00)
+    # Per-million token pricing (USD).
+    # Haiku 4.5: $0.80 input / $4.00 output
+    # Sonnet 4.6: $3.00 input / $15.00 output  (set via env vars to override)
+    price_input_per_mtok: float = Field(default=0.80)
+    price_output_per_mtok: float = Field(default=4.00)
 
     # ---- Supabase ----
     supabase_url: str = Field(default="")
