@@ -12,7 +12,7 @@ import type {
 } from "./types";
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  process.env.NEXT_PUBLIC_API_URL || "https://atlasagents.onrender.com";
 
 function apiKey(): string {
   const envKey = process.env.NEXT_PUBLIC_DASHBOARD_API_KEY;

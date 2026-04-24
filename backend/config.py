@@ -35,6 +35,9 @@ class Settings(BaseSettings):
     dashboard_api_key: str = Field(default="")
     next_public_frontend_url: str = Field(default="https://atlasagents.onrender.com")
     next_public_api_url: str = Field(default="https://atlasagents.onrender.com")
+    # Optional extra CORS allowlist, comma-separated. Used for Cloudflare Pages
+    # preview URLs + custom domains.
+    frontend_origins: str = Field(default="")
 
     # ---- Optional external tools ----
     brave_search_api_key: str = Field(default="")
@@ -54,7 +57,17 @@ class Settings(BaseSettings):
 
     @property
     def cors_origins(self) -> list[str]:
-        return [self.next_public_frontend_url, "https://atlasagents.onrender.com"]
+        origins: list[str] = [
+            self.next_public_frontend_url,
+            "http://localhost:3000",
+            "https://atlasagents.onrender.com",
+        ]
+        if self.frontend_origins:
+            origins.extend(
+                o.strip() for o in self.frontend_origins.split(",") if o.strip()
+            )
+        # Dedupe while preserving order.
+        return list(dict.fromkeys(o for o in origins if o))
 
 
 @lru_cache(maxsize=1)
