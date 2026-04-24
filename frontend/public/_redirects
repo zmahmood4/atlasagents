@@ -1,0 +1,2 @@
+# Cloudflare Pages falls back to index.html for unknown routes (SPA behaviour).
+/*    /index.html   200
