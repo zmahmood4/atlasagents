@@ -9,10 +9,14 @@ export function ExperimentCard({
   experiment,
   agents,
   onClick,
+  onStartSprint,
+  sprinting,
 }: {
   experiment: Experiment;
   agents: Agent[];
   onClick?: () => void;
+  onStartSprint?: (id: string) => void;
+  sprinting?: boolean;
 }) {
   const owner = agents.find((a) => a.name === experiment.owner_agent);
   const daysRunning =
@@ -40,6 +44,15 @@ export function ExperimentCard({
         </div>
       ) : null}
 
+      {onStartSprint && experiment.status === "proposed" ? (
+        <button
+          onClick={(e) => { e.stopPropagation(); onStartSprint(experiment.id); }}
+          disabled={sprinting}
+          className="mt-2 w-full rounded-lg border border-[var(--accent-blue)]/40 bg-[var(--accent-blue-dim)] px-3 py-1.5 font-display text-[11px] font-semibold uppercase tracking-widest text-[var(--accent-blue-bright)] transition hover:border-[var(--accent-blue)] hover:bg-[var(--accent-blue-dim)] disabled:opacity-50"
+        >
+          {sprinting ? "Starting sprint…" : "⚡ Start 14-Day Sprint"}
+        </button>
+      ) : null}
       <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px]">
         {owner ? <AgentAvatar name={owner.name} department={owner.department} size={20} /> : null}
         <span className="font-mono text-[var(--text-tertiary)]">{experiment.owner_agent}</span>

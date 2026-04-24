@@ -15,10 +15,14 @@ export function KanbanBoard({
   experiments,
   agents,
   onOpen,
+  onStartSprint,
+  sprintingId,
 }: {
   experiments: Experiment[];
   agents: Agent[];
   onOpen: (e: Experiment) => void;
+  onStartSprint?: (id: string) => void;
+  sprintingId?: string | null;
 }) {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">

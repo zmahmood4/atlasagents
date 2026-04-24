@@ -19,6 +19,7 @@ from routers import (
     knowledge,
     metrics,
     settings as settings_router,
+    sprint,
 )
 from scheduler import start_scheduler, stop_scheduler
 from security import install_security
@@ -77,3 +78,4 @@ app.include_router(knowledge.router)
 app.include_router(metrics.router)
 app.include_router(settings_router.router)
 app.include_router(chat.router)
+app.include_router(sprint.router)

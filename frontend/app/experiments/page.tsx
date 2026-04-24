@@ -8,6 +8,7 @@ import { ExperimentModal } from "@/components/experiments/ExperimentModal";
 import { KanbanBoard } from "@/components/experiments/KanbanBoard";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Spinner } from "@/components/ui/Spinner";
+import { Rocket, Play } from "lucide-react";
 import { useAgents } from "@/hooks/useAgents";
 import { api } from "@/lib/api";
 import type { Experiment } from "@/lib/types";
@@ -18,6 +19,29 @@ export default function ExperimentsPage() {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Experiment | null>(null);
   const [creating, setCreating] = useState(false);
+
+  const [sprinting, setSprinting] = useState<string | null>(null);
+
+  const startSprint = async (experimentId: string) => {
+    setSprinting(experimentId);
+    try {
+      const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+      const key = (typeof window !== "undefined" && window.localStorage.getItem("dashboard_api_key")) || "";
+      const res = await fetch(`${BASE}/api/sprint/start/${experimentId}`, {
+        method: "POST",
+        headers: { "X-API-Key": key },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        alert(`✅ Sprint started: ${data.sprint.title}\nCEO + VPs triggered. Watch the live feed.`);
+        await refresh();
+      } else {
+        alert("Failed to start sprint.");
+      }
+    } finally {
+      setSprinting(null);
+    }
+  };
 
   const refresh = useCallback(async () => {
     const r = await api.listExperiments();
@@ -54,7 +78,13 @@ export default function ExperimentsPage() {
       {loading ? (
         <Spinner />
       ) : (
-        <KanbanBoard experiments={experiments} agents={agents} onOpen={setSelected} />
+        <KanbanBoard
+            experiments={experiments}
+            agents={agents}
+            onOpen={setSelected}
+            onStartSprint={startSprint}
+            sprintingId={sprinting}
+          />
       )}
       <ExperimentModal experiment={selected} onClose={() => setSelected(null)} onSaved={refresh} />
       <CreateExperimentModal

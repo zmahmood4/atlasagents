@@ -9,6 +9,7 @@ import { CEOChatShortcut } from "@/components/chat/AgentChatButton";
 import { NowPanel } from "@/components/dashboard/NowPanel";
 import { OrgGrid } from "@/components/dashboard/OrgGrid";
 import { StatsStrip } from "@/components/dashboard/StatsStrip";
+import { SprintProgress } from "@/components/dashboard/SprintProgress";
 import { FeedFilter } from "@/components/feed/FeedFilter";
 import { RealtimeFeed } from "@/components/feed/RealtimeFeed";
 import { PageContainer } from "@/components/layout/PageContainer";
@@ -31,6 +32,9 @@ export default function CommandCenterPage() {
     <PageContainer title="Mission Control">
       {/* 1. TELEMETRY STRIP */}
       <StatsStrip agents={agents} summary={summary} />
+
+      {/* 1b. SPRINT PROGRESS */}
+      <SprintProgress />
 
       {/* 2. HEADER — status + kickoff */}
       <div className="surface mb-4 flex flex-col gap-3 rounded-xl p-4 sm:flex-row sm:items-center sm:justify-between">
