@@ -61,6 +61,11 @@ class Settings(BaseSettings):
     # ---- Agent loop limits ----
     agent_max_tool_iterations: int = Field(default=8)
 
+    # ---- Mock / test mode ----
+    # Set MOCK_MODE=true in Render env or local .env to skip ALL Anthropic API
+    # calls and return scripted responses. Zero token cost. Safe for UI testing.
+    mock_mode: bool = Field(default=False)
+
     @property
     def is_production(self) -> bool:
         return self.environment == "production"

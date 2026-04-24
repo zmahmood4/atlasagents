@@ -229,6 +229,207 @@ async def _stream_response(agent_name: str, agent_def, user_message: str):
     yield f"data: {json.dumps({'type': 'done', 'agent': agent_name})}\n\n"
 
 
+MOCK_RESPONSES: dict[str, str] = {
+    "ceo": (
+        "Understood. I've reviewed the request and assessed our current sprint context.\n\n"
+        "**My assessment:**\n"
+        "- We are on day {day} of the AI Competitor Radar sprint\n"
+        "- Current phase: Build — developers are producing code artifacts\n"
+        "- GTM plan is drafted; Marketing has a content brief waiting for approval\n\n"
+        "**I'm cascading to the team:**\n"
+        "1. VP Product → review PRD scope and confirm MVP features\n"
+        "2. VP GTM → confirm UK distribution channels are active\n"
+        "3. Research → pull latest competitive intel on monitoring tools\n\n"
+        "I'll check back in 60 minutes with a progress update. Anything else you'd like to prioritise?"
+    ),
+    "vp_product": (
+        "Here's the current product status:\n\n"
+        "**Active experiment:** AI Competitor Radar\n"
+        "**PRD status:** Drafted — 5 user stories, acceptance criteria complete\n"
+        "**Engineering:** 4 tickets open (2 FE, 2 BE) — on track for day 9 completion\n\n"
+        "**Roadmap next:**\n"
+        "- AI Process Doc Builder (effort 6, revenue 8) — queued after Radar validates\n\n"
+        "No blockers. PRD is locked — no scope changes until first user."
+    ),
+    "developer_frontend": (
+        "Here's a landing page component for your request:\n\n"
+        "```tsx\n"
+        "// frontend/app/landing/page.tsx\n"
+        "'use client';\n\n"
+        "export default function LandingPage() {\n"
+        "  return (\n"
+        "    <main className=\"min-h-screen bg-slate-950 text-white\">\n"
+        "      <section className=\"flex flex-col items-center justify-center py-24 px-6 text-center\">\n"
+        "        <h1 className=\"text-4xl font-bold mb-4\">\n"
+        "          Stop missing what your competitors are doing\n"
+        "        </h1>\n"
+        "        <p className=\"text-slate-400 text-xl mb-8 max-w-xl\">\n"
+        "          ATLAS Radar monitors 5 competitors weekly and emails you\n"
+        "          a plain-English brief of exactly what changed. £32/mo.\n"
+        "        </p>\n"
+        "        <button className=\"bg-blue-500 hover:bg-blue-400 text-white px-8 py-3 rounded-xl font-semibold\">\n"
+        "          Start free trial →\n"
+        "        </button>\n"
+        "      </section>\n"
+        "    </main>\n"
+        "  );\n"
+        "}\n"
+        "```\n\n"
+        "This is a working Next.js component. Saved as a code artifact. Let me know if you want the full page with social proof, pricing section, and FAQ."
+    ),
+    "developer_backend": (
+        "Here's a backend API endpoint for the requested functionality:\n\n"
+        "```python\n"
+        "# backend/routers/competitor.py\n"
+        "from fastapi import APIRouter\n"
+        "from pydantic import BaseModel\n\n"
+        "router = APIRouter(prefix='/api/competitors')\n\n"
+        "class MonitorRequest(BaseModel):\n"
+        "    urls: list[str]  # up to 5 competitor URLs\n"
+        "    user_id: str\n\n"
+        "@router.post('/monitor')\n"
+        "async def add_monitor(body: MonitorRequest):\n"
+        "    # Store URLs, schedule weekly crawl\n"
+        "    return {'ok': True, 'monitors': len(body.urls)}\n"
+        "```\n\n"
+        "This is production-ready Python. Should I also scaffold the crawler job and the weekly digest email sender?"
+    ),
+    "marketing": (
+        "**Landing page copy — AI Competitor Radar (UK)**\n\n"
+        "**Hero headline:**\n"
+        "Stop finding out about competitor moves 3 months late.\n\n"
+        "**Sub-headline:**\n"
+        "ATLAS Radar monitors your top 5 competitors every week and sends you a clear brief of what changed — pricing, features, messaging, job listings. Takes 2 minutes to set up. Replaces 3 hours of manual research.\n\n"
+        "**CTA:** Start free — track your first competitor today →\n\n"
+        "**Social proof (placeholder):**\n"
+        "_'Found out my competitor dropped their price 20% the day it happened. Used to miss this for months.'_ — UK SaaS founder\n\n"
+        "**Pricing:** 7-day free trial, then £32/month. Cancel anytime.\n\n"
+        "Ready to publish — requesting PUBLISH approval."
+    ),
+    "research": (
+        "**Market research: AI Competitor Monitoring — UK sub-£50 gap**\n\n"
+        "**Finding:** The sub-£50/mo competitor monitoring market is essentially unserved in the UK.\n\n"
+        "**Competitors at enterprise tier:**\n"
+        "- Crayon: £400-1,600/mo — enterprise only\n"
+        "- Klue: £350+/mo — requires annual contract\n\n"
+        "**Prosumer gap:**\n"
+        "- Visualping: £12-35/mo — detects changes but zero AI analysis\n"
+        "- Google Alerts: free — noisy, no synthesis\n\n"
+        "**UK ICP signal:**\n"
+        "IndieHackers UK thread (2024): 'How do you track competitors?' — top answer from 68% of respondents: 'manually, spreadsheet, occasionally.'\n\n"
+        "**Recommendation:** Activate Competitor Radar sprint immediately. Confidence: 8/10."
+    ),
+    "finance": (
+        "**Finance snapshot — today**\n\n"
+        "- AI spend today: £0.18 (Haiku 4.5, 13 agents)\n"
+        "- AI spend this month: £1.24\n"
+        "- Monthly projection at current rate: £3.72/month\n"
+        "- Revenue: £0 (pre-revenue, sprint day 5)\n\n"
+        "**Unit economics (Competitor Radar):**\n"
+        "- Price: £32/mo\n"
+        "- COGS per user: <£0.05/mo (crawling + AI summaries)\n"
+        "- Gross margin: ~99.8%\n"
+        "- Path to £1k MRR: 32 paying users\n\n"
+        "No anomalies. Spend within budget. Caps are set — no runaway risk."
+    ),
+    "analytics": (
+        "**Analytics report — sprint day 5**\n\n"
+        "No live user data yet (pre-launch). Here's the instrumentation plan:\n\n"
+        "**Events to track at launch:**\n"
+        "1. `landing_visit` — source + medium\n"
+        "2. `trial_started` — time on page before signup\n"
+        "3. `first_digest_opened` — email open rate target: >40%\n"
+        "4. `paid_converted` — target: 15% trial→paid\n\n"
+        "**Week 1 target:** 10 trial signups\n"
+        "**Week 2 target:** 2 paying users at £32/mo\n\n"
+        "I'll auto-report once data starts flowing."
+    ),
+    "sales": (
+        "**Outreach status — UK ICP**\n\n"
+        "I've identified 20 UK founders on LinkedIn + X who have posted about competitor tracking in the last 60 days.\n\n"
+        "**Draft message sequence (3-touch):**\n\n"
+        "_Touch 1:_\n"
+        "Hey {first_name}, noticed you posted about tracking competitors manually — we just built a tool that automates the weekly check and gives you a plain-English brief. Happy to show you a demo?\n\n"
+        "_Touch 2 (no reply, +4 days):_\n"
+        "Sending a quick example of what the weekly brief looks like for a SaaS business like yours: [link]\n\n"
+        "All outreach requires your approval before sending. Ready to submit for EMAIL approval."
+    ),
+    "support": (
+        "**Support status:**\n\n"
+        "No support tickets in the queue (pre-launch — no customers yet).\n\n"
+        "I've prepared the onboarding email template and FAQ for when the first users sign up.\n\n"
+        "**FAQ ready:**\n"
+        "- What counts as a 'change'?\n"
+        "- How do I add/remove competitors?\n"
+        "- What if a site blocks crawling?\n"
+        "- Can I see the raw diff?\n\n"
+        "Standing by for first customer interactions."
+    ),
+    "vp_engineering": (
+        "**Engineering status:**\n\n"
+        "**Open tickets (4):**\n"
+        "- BE-01: Crawler endpoint — in progress (developer_backend)\n"
+        "- BE-02: Diff + AI summary engine — pending (blocked on BE-01)\n"
+        "- FE-01: Onboarding flow — in progress (developer_frontend)\n"
+        "- BE-03: Weekly email digest — pending\n\n"
+        "**Velocity:** On track for day 9 MVP completion.\n\n"
+        "**No blockers** currently. BE-02 will unblock once BE-01 crawler is done — ETA day 7."
+    ),
+    "vp_gtm": (
+        "**GTM plan — AI Competitor Radar (UK)**\n\n"
+        "**Positioning:** For UK founders who manually track competitors — ATLAS Radar sends a weekly email showing exactly what changed on your top 5 competitors, so you never fall behind again. £32/mo.\n\n"
+        "**Channel 1 (primary):** Cold DM on LinkedIn + X to UK founders who've mentioned competitor tracking\n"
+        "**Channel 2 (secondary):** IndieHackers UK post + r/SaaS share\n\n"
+        "**Offer:** 7-day free trial (track 1 competitor), then £32/mo for 5\n\n"
+        "**Week 1 target:** 10 trial signups · 2 paying users by day 14\n\n"
+        "Content brief sent to Marketing. Outreach brief sent to Sales. Both ready for approval."
+    ),
+    "product_manager": (
+        "**PRD: AI Competitor Radar — MVP**\n\n"
+        "**Problem:** UK founders manually check 3-5 competitor websites weekly. Takes 2-4 hours. They fall behind.\n\n"
+        "**Target user:** James, 32, UK SaaS founder, manually checks 4 competitors every Sunday, sometimes forgets.\n\n"
+        "**Core user story:** As a solo founder, I want a weekly email on Monday morning showing exactly what changed on my top 5 competitors, so I can stay informed without 3 hours of manual research.\n\n"
+        "**MVP scope:** URL monitoring · weekly diff · Claude Haiku summaries · Monday 8am email · Stripe £32/mo\n\n"
+        "**Success metric:** 15 paying users in 30 days at £32/mo\n\n"
+        "PRD complete. Posted to VP Engineering for ticket decomposition."
+    ),
+    "ops": (
+        "**Daily digest — ATLAS sprint**\n\n"
+        "**Experiment:** AI Competitor Radar · Day 5/14 · Phase: Build\n\n"
+        "✅ Done yesterday:\n"
+        "- product_manager: PRD written (5 stories, acceptance criteria)\n"
+        "- vp_gtm: GTM plan with UK channels drafted\n"
+        "- research: Competitive analysis complete\n\n"
+        "🔄 In progress:\n"
+        "- developer_backend: crawler endpoint (BE-01)\n"
+        "- developer_frontend: onboarding flow (FE-01)\n\n"
+        "🟡 Needs owner:\n"
+        "- marketing: landing copy ready for PUBLISH approval\n"
+        "- sales: outreach ready for EMAIL approval\n\n"
+        "📊 Sprint health: ON TRACK · Next milestone: MVP build by day 9"
+    ),
+}
+
+
+async def _mock_stream(agent_name: str, message: str):
+    """Return a scripted response without calling Anthropic. Zero API cost."""
+    import asyncio
+    response = MOCK_RESPONSES.get(agent_name, f"[MOCK] {agent_name} here. I received your message: '{message[:80]}'. In production I would respond with full context.")
+    words = response.split(" ")
+    full = ""
+    chunk = ""
+    for i, word in enumerate(words):
+        chunk += word + " "
+        if (i + 1) % 8 == 0 or i == len(words) - 1:
+            full += chunk
+            yield f"data: {json.dumps({'type': 'text', 'content': chunk})}\n\n"
+            chunk = ""
+            await asyncio.sleep(0.04)
+    _save_message(agent_name, "owner", message)
+    _save_message(agent_name, "agent", full.strip(), metadata={"mock": True})
+    yield f"data: {json.dumps({'type': 'done', 'agent': agent_name, 'mock': True})}\n\n"
+
+
 @router.post("/{agent_name}")
 @default_rate_limit()
 async def chat(request: Request, agent_name: str, body: ChatMessage):
@@ -238,8 +439,14 @@ async def chat(request: Request, agent_name: str, body: ChatMessage):
         raise HTTPException(status_code=404, detail=f"agent '{agent_name}' not found")
 
     settings = get_settings()
-    if not settings.anthropic_api_key:
-        raise HTTPException(status_code=503, detail="ANTHROPIC_API_KEY not configured")
+
+    # Mock mode — no Anthropic calls, realistic scripted responses
+    if settings.mock_mode or not settings.anthropic_api_key:
+        return StreamingResponse(
+            _mock_stream(agent_name, body.message.strip()[:4000]),
+            media_type="text/event-stream",
+            headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+        )
 
     return StreamingResponse(
         _stream_response(agent_name, defn, body.message.strip()[:4000]),
