@@ -6,6 +6,7 @@ import {
   Brain,
   FlaskConical,
   type LucideIcon,
+  MessageSquare,
   MoreHorizontal,
   Inbox,
   Grid3x3,
@@ -22,10 +23,11 @@ const PRIMARY_NAV = [
   { href: "/", label: "Control", icon: Home },
   { href: "/agents", label: "Agents", icon: Grid3x3 },
   { href: "/approvals", label: "Approvals", icon: Inbox },
-  { href: "/work", label: "Work", icon: Brain },
+  { href: "/chat", label: "Chat", icon: MessageSquare },
 ];
 
 const MORE_NAV = [
+  { href: "/work",         label: "Work",        icon: Brain },
   { href: "/experiments", label: "Experiments", icon: FlaskConical },
   { href: "/financials", label: "Financials", icon: BarChart3 },
   { href: "/knowledge", label: "Knowledge", icon: Brain },

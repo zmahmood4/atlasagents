@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   BarChart3, Brain, ChevronLeft, ChevronRight,
   FlaskConical, FolderOpen, Grid3x3, Home, Inbox,
-  type LucideIcon, Settings, X,
+  MessageSquare, type LucideIcon, Settings, X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -22,6 +22,7 @@ const NAV: NavItem[] = [
   { href: "/financials",  label: "Financials",      icon: BarChart3 },
   { href: "/approvals",   label: "Approvals",       icon: Inbox },
   { href: "/knowledge",   label: "Knowledge",       icon: Brain },
+  { href: "/chat",         label: "Agent Chat",      icon: MessageSquare },
   { href: "/settings",    label: "Settings",        icon: Settings },
 ];
 

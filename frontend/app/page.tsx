@@ -5,6 +5,7 @@ import { AgentSlideOver } from "@/components/agents/AgentSlideOver";
 import { ActivityTicker } from "@/components/dashboard/ActivityTicker";
 import { CommandBeacon } from "@/components/dashboard/CommandBeacon";
 import { KickoffButton } from "@/components/dashboard/KickoffButton";
+import { CEOChatShortcut } from "@/components/chat/AgentChatButton";
 import { NowPanel } from "@/components/dashboard/NowPanel";
 import { OrgGrid } from "@/components/dashboard/OrgGrid";
 import { StatsStrip } from "@/components/dashboard/StatsStrip";
@@ -51,6 +52,11 @@ export default function CommandCenterPage() {
 
       {/* 3. COMMAND BEACON — CEO + dept breakdown */}
       <CommandBeacon agents={agents} />
+
+      {/* 3b. CEO CHAT SHORTCUT */}
+      <div className="mb-4">
+        <CEOChatShortcut agent={agents.find((a) => a.name === "ceo")} />
+      </div>
 
       {/* 4. LIVE ROW — NowPanel + OrgGrid */}
       <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-12">

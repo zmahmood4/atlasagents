@@ -194,4 +194,25 @@ export const api = {
     request<{ ok: boolean; queued: string[]; message: string }>("/api/settings/kickoff", {
       method: "POST",
     }),
+
+  // ---- chat ----
+  getChatHistory: (agentName: string, limit = 50) =>
+    request<{ agent_name: string; messages: import("./types").ConversationMessage[]; total: number }>(
+      `/api/chat/${encodeURIComponent(agentName)}?limit=${limit}`,
+    ),
+
+  clearChat: (agentName: string) =>
+    request<{ ok: boolean }>(`/api/chat/${encodeURIComponent(agentName)}`, { method: "DELETE" }),
+
+  chatStream: async (agentName: string, message: string): Promise<Response> => {
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+    const k = apiKey();
+    if (k) headers.set("X-API-Key", k);
+    return fetch(`${BASE_URL}/api/chat/${encodeURIComponent(agentName)}`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ message }),
+    });
+  },
 };

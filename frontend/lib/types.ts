@@ -171,6 +171,23 @@ export interface WorkArtifact {
   created_at: string;
 }
 
+export interface ConversationMessage {
+  id: string;
+  agent_name: string;
+  role: "owner" | "agent" | "system";
+  content: string;
+  metadata: {
+    tool_calls?: { tool: string; input: unknown; output: unknown }[];
+  };
+  created_at: string;
+}
+
+export type ChatStreamEvent =
+  | { type: "text"; content: string }
+  | { type: "tool_use"; tool: string; summary: string }
+  | { type: "done"; agent: string }
+  | { type: "error"; message: string };
+
 export interface MetricsSummary {
   totals: {
     tokens_today: number;

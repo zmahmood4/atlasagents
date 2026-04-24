@@ -13,6 +13,7 @@ from routers import (
     agents,
     approvals,
     artifacts,
+    chat,
     experiments,
     health,
     knowledge,
@@ -75,3 +76,4 @@ app.include_router(approvals.router)
 app.include_router(knowledge.router)
 app.include_router(metrics.router)
 app.include_router(settings_router.router)
+app.include_router(chat.router)
