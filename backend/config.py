@@ -33,8 +33,8 @@ class Settings(BaseSettings):
 
     # ---- Dashboard / frontend ----
     dashboard_api_key: str = Field(default="")
-    next_public_frontend_url: str = Field(default="http://localhost:3000")
-    next_public_api_url: str = Field(default="http://localhost:8000")
+    next_public_frontend_url: str = Field(default="https://atlasagents.onrender.com")
+    next_public_api_url: str = Field(default="https://atlasagents.onrender.com")
 
     # ---- Optional external tools ----
     brave_search_api_key: str = Field(default="")
@@ -54,7 +54,7 @@ class Settings(BaseSettings):
 
     @property
     def cors_origins(self) -> list[str]:
-        return [self.next_public_frontend_url, "http://localhost:3000"]
+        return [self.next_public_frontend_url, "https://atlasagents.onrender.com"]
 
 
 @lru_cache(maxsize=1)
