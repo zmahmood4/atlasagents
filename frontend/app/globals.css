@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base: #080c14;
+  --bg-surface: #0d1420;
+  --bg-elevated: #131d2e;
+  --bg-hover: #1a2540;
+  --border: #1e2d45;
+  --border-active: #2a4070;
+  --text-primary: #e8eef8;
+  --text-secondary: #7a90b0;
+  --text-tertiary: #4a5f80;
+  --accent-blue: #3b82f6;
+  --accent-blue-dim: #1d3d7a;
+  --accent-amber: #f59e0b;
+  --accent-emerald: #10b981;
+  --accent-red: #ef4444;
+  --accent-purple: #8b5cf6;
+
+  --dept-command: #8b5cf6;
+  --dept-product: #f97316;
+  --dept-engineering: #06b6d4;
+  --dept-gtm: #eab308;
+  --dept-ops: #10b981;
+}
+
+html,
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(1200px 600px at 15% -10%, rgba(59, 130, 246, 0.06), transparent 60%),
+    radial-gradient(1000px 500px at 95% 100%, rgba(16, 185, 129, 0.04), transparent 55%);
+  background-attachment: fixed;
+}
+
+/* Subtle moving mission-control grid overlay — sits beneath content */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 90%);
+  animation: grid-drift 60s linear infinite;
+}
+@keyframes grid-drift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 48px 48px, 48px 48px; }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:focus-visible {
+  outline: 1.5px solid var(--accent-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent-blue) 35%, transparent);
+  color: var(--text-primary);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 6px;
+  border: 2px solid var(--bg-base);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-active);
+}
+
+/* --------- animations --------- */
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(1.35); }
+}
+.status-dot-pulse {
+  animation: status-pulse 1.4s ease-in-out infinite;
+  box-shadow: 0 0 10px currentColor;
+}
+
+@keyframes approval-bounce {
+  0%, 100% { transform: translateY(0); }
+  40%      { transform: translateY(-4px); }
+}
+.approval-bounce {
+  animation: approval-bounce 1s ease-in-out 2;
+  box-shadow: 0 0 12px color-mix(in oklab, var(--accent-amber) 60%, transparent);
+}
+
+/* Glow halo for ACTIVE agent tiles */
+@keyframes halo-breathe {
+  0%, 100% { box-shadow: 0 0 0 1px var(--halo-color, var(--accent-blue)), 0 0 28px -6px var(--halo-color, var(--accent-blue)); }
+  50%      { box-shadow: 0 0 0 1px var(--halo-color, var(--accent-blue)), 0 0 44px 0 var(--halo-color, var(--accent-blue)); }
+}
+.halo-active {
+  animation: halo-breathe 2.2s ease-in-out infinite;
+}
+
+/* Conic-gradient sweep for "radar" idle state */
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.radar::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    color-mix(in oklab, var(--accent-blue) 35%, transparent) 40deg,
+    transparent 80deg
+  );
+  animation: radar-sweep 4s linear infinite;
+  mask: radial-gradient(circle at center, transparent 55%, black 58%);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Ticker / marquee */
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-track {
+  display: inline-flex;
+  animation: ticker-scroll 40s linear infinite;
+  white-space: nowrap;
+}
+
+/* Scanline on the logo */
+@keyframes scanline {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+.scanline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in oklab, var(--accent-blue) 80%, transparent) 48%,
+    color-mix(in oklab, var(--accent-blue) 80%, transparent) 52%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  animation: scanline 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* --------- surface helpers --------- */
+
+.surface {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--bg-surface) 92%, white 2%),
+    var(--bg-surface)
+  );
+  border: 1px solid var(--border);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.02) inset,
+    0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.glow-hover {
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+.glow-hover:hover {
+  border-color: var(--border-active);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--accent-blue) 30%, transparent),
+    0 6px 20px -8px rgba(59, 130, 246, 0.25);
+}
+
+.data-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+.panel-blur {
+  backdrop-filter: saturate(140%) blur(8px);
+}
+
+/* Ensure content sits above the grid overlay */
+#__next, main, header, aside, nav, body > * {
+  position: relative;
+  z-index: 1;
+}
