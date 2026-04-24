@@ -1,2 +1,0 @@
-# Cloudflare Pages falls back to index.html for unknown routes (SPA behaviour).
-/old-page /new-page 301
