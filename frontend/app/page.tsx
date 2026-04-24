@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { AtlasOrb } from "@/components/atlas/AtlasOrb";
+import { SetupScreen } from "@/components/atlas/SetupScreen";
 import { AgentGrid3D } from "@/components/atlas/AgentGrid3D";
 import { useAgents } from "@/hooks/useAgents";
 import { useApprovals } from "@/hooks/useApprovals";
@@ -36,6 +37,13 @@ export default function Atlas() {
   const { approvals } = useApprovals("pending");
   const { data: summary } = useMetricsSummary(10000);
   const router = useRouter();
+
+  const [apiKeySet, setApiKeySet] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const k = window.localStorage.getItem("dashboard_api_key");
+    setApiKeySet(!!k);
+  }, []);
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -112,6 +120,9 @@ export default function Atlas() {
   };
 
   const isEmpty = messages.length === 0;
+
+  if (apiKeySet === null) return null; // avoid flash before localStorage check
+  if (apiKeySet === false) return <SetupScreen onUnlocked={() => setApiKeySet(true)} />;
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-[var(--bg-void)]"
